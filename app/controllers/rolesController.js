@@ -8,7 +8,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 // Display list of all roles.
 exports.roles_list = asyncHandler(async (req, res, next) => {
     const r = new Roles()
-    res.status(200).json({ roles: r.getAllRoles() });
+    await r.getAllRoles(roles => {
+      res.status(200).json({ roles: roles });
+    })
 });
 
 // Display detail page for a specific role.

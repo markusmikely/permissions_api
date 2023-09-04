@@ -1,23 +1,23 @@
+const FileManager = require('./FileManagerClass')
 class User {
     constructor() {
-      this.users = require('./../../data/users.json')
-      console.log('roles')
+      this.fileManager = new FileManager('users.json')
     }
 
-    getRole(id) {
-
+    getUser(id) {
+      return this.fileManager.get(id)
     }
 
-    getAllUsers() {
-        return this.users
+    async getAllUsers(fn) {
+        await this.fileManager.getAll(fn)
     }
 
-    updateRole(role) {
-
+    updateUser(user) {
+      return this.fileManager.update(user)
     }
 
-    deleteRole(id) {
-
+    deleteUser(id) {
+      return this.fileManager.delete(id)
     }
   }
 

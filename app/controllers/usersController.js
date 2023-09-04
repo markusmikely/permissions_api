@@ -7,7 +7,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 // Display list of all users.
 exports.users_list = asyncHandler(async (req, res, next) => {
     const u = new Users()
-    res.status(200).json({ users: u.getAllUsers() });
+    await u.getAllUsers(users => {
+      res.status(200).json({ users: users });
+    })
 });
 
 // Display detail page for a specific user.

@@ -8,7 +8,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 // Display list of all permissions.
 exports.permissions_list = asyncHandler(async (req, res, next) => {
     const p = new Permissions()
-    res.status(200).json({ permissions: p.getAllPermission() });
+    await p.getAllPermission(permissions => {
+      res.status(200).json({ permissions: permissions });
+    })
 });
 
 // Display detail page for a specific permission.

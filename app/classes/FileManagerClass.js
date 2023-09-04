@@ -1,8 +1,9 @@
 const fs = require("fs");
+const path = require('path');
 
 class FileManager {
     constructor(file) {
-        this.file = file
+        this.file = path.join(__dirname, "/../../data/"+file);
     }
 
     /**
@@ -14,9 +15,9 @@ class FileManager {
      * @returns 
      */
     create(item) {
+
         return fs.readFile(this.file, 'utf8', (err, data) => {
             if(err) {
-                console.log('error', err)
                 return false
             } else {
                 data = JSON.parse(data)
@@ -112,16 +113,13 @@ class FileManager {
         })
     }
 
-    /**
-     * This function checks if the file specified in the constructor exists
-     * If it does not exist it creates a new file with an empty array and saves it
-     * This function is to ensure the api still works if the json data is deleted or not present
-     * @returns 
-     */
-    checkIfFileExists() {
-        return true
+    async getAll(fn) {
+        await fs.readFile(this.file, 'utf8', (err, data) => {
+            if(!err && data) {
+                fn(JSON.parse(data));
+            }
+        })
     }
-
 }
 
   module.exports = FileManager

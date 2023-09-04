@@ -1,34 +1,24 @@
+const FileManager = require('./FileManagerClass')
 class Permission {
     constructor() {
-      this.permissions = require('./../../data/permissions.json')
+      this.fileManager = new FileManager('permissions.json')
     }
 
     getPermission(id) {
-        const permission = this.permissions.filter(p => p._id === id)[0]
+        const permission = this.fileManager.get(id)
         return permission
     }
 
-    getAllPermission() {
-        return this.permissions
+    async getAllPermission(fn) {
+        await this.fileManager.getAll(fn)
     }
 
     updatePermission(updatePermission) {
-        const permission = {
-            ...this.permissions.filter(p => p._id === id)[0],
-            ...updatePermission
-        }
-        // Save permission
-        return permission
+        return this.fileManager.update(updatePermission)
     }
 
     deletePermission(id) {
-        const permissionIndex = this.permissions.map(p => p._id.indexOf(id));
-        if(permissionIndex) {
-            this.permissions.splice(permissionIndex, 1)
-            return true
-        } else {
-            return false
-        }
+        return this.fileManager.delete(id)
     }
   }
 
