@@ -1,12 +1,13 @@
 const asyncHandler = require("express-async-handler");
-
+const Users = require('./../classes/UserClass')
 exports.index = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: Users API documentation");
 });
 
 // Display list of all users.
 exports.users_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Users list");
+    const u = new Users()
+    res.status(200).json({ users: u.getAllUsers() });
 });
 
 // Display detail page for a specific user.
