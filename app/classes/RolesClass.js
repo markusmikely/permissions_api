@@ -12,6 +12,10 @@ class Role {
         await this.fileManager.getAll(fn)
     }
 
+    async createRole(role, fn) {
+      await this.fileManager.create(role, fn)
+    }
+
     updateRole(role) {
       return this.fileManager.update(role)
     }

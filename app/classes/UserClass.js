@@ -12,6 +12,10 @@ class User {
         await this.fileManager.getAll(fn)
     }
 
+    async createUser(user, fn) {
+      await this.fileManager.create(user, fn)
+    }
+
     updateUser(user) {
       return this.fileManager.update(user)
     }

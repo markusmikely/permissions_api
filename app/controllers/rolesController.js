@@ -20,7 +20,14 @@ exports.role_detail = asyncHandler(async (req, res, next) => {
 
 // Handle role create on POST.
 exports.role_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Role create POST");
+  const r = new Roles()
+  await r.createRole(req.body, response => {
+    if(!response) {
+      res.status(400).json({ message: 'Failed to create role' });
+    } else {
+      res.status(200).json({ role: response });
+    }
+  })
 });
 
 // Handle role delete on POST.

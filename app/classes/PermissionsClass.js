@@ -13,6 +13,11 @@ class Permission {
         await this.fileManager.getAll(fn)
     }
 
+    async createPermission(permission, fn) {
+        console.log('c', permission)
+        return this.fileManager.create(permission, fn)
+    }
+
     updatePermission(updatePermission) {
         return this.fileManager.update(updatePermission)
     }

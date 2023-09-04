@@ -14,22 +14,25 @@ class FileManager {
      * @param {*} item 
      * @returns 
      */
-    create(item) {
+    create(item, fn) {
 
-        return fs.readFile(this.file, 'utf8', (err, data) => {
+        fs.readFile(this.file, 'utf8', (err, data) => {
             if(err) {
-                return false
+                fn(false)
             } else {
                 data = JSON.parse(data)
                 
-                const _id = (data[data.length  - 1]._id)++ // TODO: Update so this is always unique, deleting items can break this
-                item._id = _id
+                const id = (data[data.length  - 1]._id)++ // TODO: Update so this is always unique, deleting items can break this
+                
+                item._id = id
                 data.push(item)
 
-                json = JSON.stringify(data)
-                return fs.writeFile(this.file, json, 'utf8', () => {
+                console.log('item', item)
+                
+                const json = JSON.stringify(data)
+                fs.writeFile(this.file, json, 'utf8', () => {
                     console.log('saved to '+this.file+' successfully');
-                    return true
+                    fn(id)
                 })
             }
         })

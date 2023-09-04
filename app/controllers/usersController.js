@@ -19,7 +19,14 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
 
 // Handle user create on POST.
 exports.user_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: user create POST");
+  const u = new Users()
+  await u.createUser(req.body, response => {
+    if(!response) {
+      res.status(400).json({ message: 'Failed to create user' });
+    } else {
+      res.status(200).json({ user: response });
+    }
+  })
 });
 
 // Handle user delete on POST.
