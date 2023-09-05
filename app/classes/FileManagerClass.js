@@ -15,23 +15,16 @@ class FileManager {
      * @returns 
      */
     create(item, fn) {
-
         fs.readFile(this.file, 'utf8', (err, data) => {
             if(err) {
                 fn(false)
             } else {
-                data = JSON.parse(data)
-                
-                const id = (data[data.length  - 1]._id)++ // TODO: Update so this is always unique, deleting items can break this
-                
+                data = JSON.parse(data)       
+                const id = this.getNextId(data)        
                 item._id = id
                 data.push(item)
-
-                console.log('item', item)
-                
                 const json = JSON.stringify(data)
                 fs.writeFile(this.file, json, 'utf8', () => {
-                    console.log('saved to '+this.file+' successfully');
                     fn(id)
                 })
             }
@@ -59,7 +52,6 @@ class FileManager {
                 
                 json = JSON.stringify(data)
                 return fs.writeFile(this.file, json, 'utf8', () => {
-                    console.log('saved to '+this.file+' successfully');
                     return true
                 })
             }
@@ -88,7 +80,6 @@ class FileManager {
                 
                 json = JSON.stringify(data)
                 return fs.writeFile(this.file, json, 'utf8', () => {
-                    console.log('saved to '+this.file+' successfully');
                     return true
                 })
             }
@@ -116,12 +107,33 @@ class FileManager {
         })
     }
 
+    /**
+     * This funnction returns all values from the data in the 
+     * location of the file attribute
+     * @param {*} fn 
+     */
     async getAll(fn) {
         await fs.readFile(this.file, 'utf8', (err, data) => {
             if(!err && data) {
                 fn(JSON.parse(data));
             }
         })
+    }
+
+    /**
+     * This function takes a parameter which is an array of data items
+     * the ids of all the items are extracted into an array and then the max number is retrived
+     * This nuber is incremented by one and returned
+     * @param {*} data 
+     * @returns 
+     */
+    getNextId(data) {
+        const ids = data.map(d => d._id)
+        let id = Math.max(...ids)
+        const _id = id+1
+        console.log(id, _id)
+
+        return _id
     }
 }
 

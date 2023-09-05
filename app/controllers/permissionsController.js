@@ -21,14 +21,12 @@ exports.permission_detail = asyncHandler(async (req, res, next) => {
 // Handle permission create on POST.
 exports.permission_create_post = asyncHandler(async (req, res, next) => {
   const p = new Permissions()
-  console.log('b', req.body)
   await p.createPermission(req.body, response => {
     if(!response) {
       res.status(400).json({ message: 'Failed to create permission' });
     } else {
       res.status(200).json({ permission: response });
     }
-
   })
 });
 

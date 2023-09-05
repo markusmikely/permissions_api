@@ -14,7 +14,6 @@ class Permission {
     }
 
     async createPermission(permission, fn) {
-        console.log('c', permission)
         return this.fileManager.create(permission, fn)
     }
 
