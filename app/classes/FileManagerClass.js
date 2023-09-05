@@ -22,10 +22,14 @@ class FileManager {
                 data = JSON.parse(data)       
                 const id = this.getNextId(data)        
                 item._id = id
+                item.created = new Date()
                 data.push(item)
                 const json = JSON.stringify(data)
                 fs.writeFile(this.file, json, 'utf8', () => {
-                    fn(id)
+                    fn({
+                        _id: id,
+                        created: item.created
+                    })
                 })
             }
         })
@@ -107,6 +111,19 @@ class FileManager {
         })
     }
 
+    getByAttribute(attribute, value, fn) {
+        fs.readFile(this.file, 'utf8', (err, data) => {
+            if(err) {
+                fn(false)
+            } else {
+                data = JSON.parse(data)
+                // update function
+                const item = data.filter(d => d[attribute] === value)[0]
+                fn(item)
+            }
+        })
+    }
+
     /**
      * This funnction returns all values from the data in the 
      * location of the file attribute
@@ -115,7 +132,15 @@ class FileManager {
     async getAll(fn) {
         await fs.readFile(this.file, 'utf8', (err, data) => {
             if(!err && data) {
-                fn(JSON.parse(data));
+                const response = JSON.parse(data).map(d => {
+                    var date = new Date();
+                    date.setDate(date.getDate() - 100);
+                    d.created = !d.created ? date : d.created
+                    return d
+                }).sort((a, b) => {
+                    return Date.parse(b.created) - Date.parse(a.created)
+                })
+                fn(response);
             }
         })
     }
@@ -131,7 +156,6 @@ class FileManager {
         const ids = data.map(d => d._id)
         let id = Math.max(...ids)
         const _id = id+1
-        console.log(id, _id)
 
         return _id
     }

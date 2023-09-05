@@ -8,6 +8,10 @@ class User {
       return this.fileManager.get(id)
     }
 
+    getUserByEmail(email, fn) {
+      this.fileManager.getByAttribute('email', email, fn)
+    }
+
     async getAllUsers(fn) {
         await this.fileManager.getAll(fn)
     }

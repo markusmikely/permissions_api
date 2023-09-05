@@ -25,7 +25,7 @@ exports.role_create_post = asyncHandler(async (req, res, next) => {
     if(!response) {
       res.status(400).json({ message: 'Failed to create role' });
     } else {
-      res.status(200).json({ role: response });
+      res.status(200).json(response);
     }
   })
 });

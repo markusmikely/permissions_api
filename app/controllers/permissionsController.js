@@ -25,7 +25,7 @@ exports.permission_create_post = asyncHandler(async (req, res, next) => {
     if(!response) {
       res.status(400).json({ message: 'Failed to create permission' });
     } else {
-      res.status(200).json({ permission: response });
+      res.status(200).json( response );
     }
   })
 });

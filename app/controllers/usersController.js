@@ -17,6 +17,13 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
   res.send(`NOT IMPLEMENTED: User detail: ${req.params.id}`);
 });
 
+exports.user_by_email = asyncHandler(async (req, res, next) => {
+  const u = new Users()
+  await u.getUserByEmail(req.params.email, response => {
+    res.status(200).json({ user: response ? response : false });
+  })
+})
+
 // Handle user create on POST.
 exports.user_create_post = asyncHandler(async (req, res, next) => {
   const u = new Users()
@@ -24,7 +31,7 @@ exports.user_create_post = asyncHandler(async (req, res, next) => {
     if(!response) {
       res.status(400).json({ message: 'Failed to create user' });
     } else {
-      res.status(200).json({ user: response });
+      res.status(200).json( response );
     }
   })
 });
